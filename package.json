@@ -1,0 +1,16 @@
+{
+  "name": "wishlist",
+  "version": "1.0.0",
+  "description": "Keep track of items you'd like purchased for you, and your friends' wishlists.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andyschott/wishlist.git"
+  },
+  "author": "Andy Schott",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andyschott/wishlist/issues"
+  },
+  "homepage": "https://github.com/andyschott/wishlist#readme"
+}

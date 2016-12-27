@@ -8,11 +8,11 @@ router.post('/', (req, res, next) => {
     const data = {
         'name': req.body.name,
         'priority': parseInt(req.body.priority),
-        'comments': req.body.comments
+        'comment': req.body.comment
     };
 
-    db.createItem(data.name, data.priority, data.comments, (items) => {
-        return res.json(items);
+    db.createItem(data.name, data.priority, data.comment, (items) => {
+        return res.redirect('/');
     });
 });
 

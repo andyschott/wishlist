@@ -23,15 +23,15 @@ function handleError(err, done) {
 }
 
 const db = {
-    'createItem': function (name, priority, comments, callback) {
+    'createItem': function (name, priority, comment, callback) {
         pg.connect(connectionString, (err, client, done) => {
             if (err) {
                 handleError(err, done);
             }
 
             // Insert the new item
-            client.query('INSERT INTO ITEMS(NAME, PRIORITY, COMMENTS) VALUES ($1, $2, $3)',
-                [name, priority, comments]);
+            client.query('INSERT INTO ITEMS(NAME, PRIORITY, COMMENT) VALUES ($1, $2, $3)',
+                [name, priority, comment]);
 
             return getItems(client, (items) => {
                 done();

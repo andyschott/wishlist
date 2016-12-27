@@ -2,10 +2,25 @@ extends layout
 
 block content
   h1 Wishlist
-  ul
+  ul(id='items')
     each item in items
       li
         div
           span #{item.name} (Priority #{item.priority})
           br
-          em #{item.comments}
+          em #{item.comment}
+  h1 Add an Item
+  form(action='/api/v1/items', method='post')
+    p
+      span Name:
+      br
+      input(type='text', name='name')
+    p
+      span Priority:
+      br
+      input(type='text', name='priority')
+    p
+      span Comment:
+      br
+      input(type='text', name='comment')
+    input(type='submit', value='Add Item')

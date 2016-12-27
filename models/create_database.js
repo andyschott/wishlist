@@ -6,6 +6,6 @@ const client = new pg.Client(connectionString);
 client.connect();
 
 const query = client.query(
-'CREATE TABLE ITEMS(ID SERIAL PRIMARY KEY, NAME VARCHAR(256) NOT NULL, PRIORITY SMALLINT, COMMENTS TEXT)'
+'CREATE TABLE ITEMS(ID SERIAL PRIMARY KEY, NAME VARCHAR(256) NOT NULL, PRIORITY SMALLINT, COMMENT TEXT)'
 );
 query.on('end', () => { client.end(); });

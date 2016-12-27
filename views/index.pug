@@ -1,5 +1,11 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 Wishlist
+  ul
+    each item in items
+      li
+        div
+          span #{item.name} (Priority #{item.priority})
+          br
+          em #{item.comments}

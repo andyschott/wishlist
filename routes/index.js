@@ -1,9 +1,13 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const db = require('../models/db');
+
+const router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  db.getItems((items) => {
+    res.render('index', { items: items });
+  });
 });
 
 module.exports = router;

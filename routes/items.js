@@ -11,8 +11,16 @@ router.post('/', (req, res, next) => {
         'comments': req.body.comments
     };
 
-    var items = db.createItem(data.name, data.priority, data.comments);
-    return res.json(items);
+    db.createItem(data.name, data.priority, data.comments, (items) => {
+        return res.json(items);
+    });
+});
+
+// Return all items, sorted by priority
+router.get('/', (req, res, next) => {
+    db.getItems((items) => {
+        return res.json(items);
+    });
 });
 
 module.exports = router;

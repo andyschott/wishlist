@@ -5,10 +5,12 @@ block content
   ul(id='items')
     each item in items
       li
-        div
+        div(class='wishlistItem')
           span #{item.name} (Priority #{item.priority})
           br
           em #{item.comment}
+        a(href='#') Edit
+        a(href='#') Delete
   h1 Add an Item
   form(action='/api/v1/items', method='post')
     p

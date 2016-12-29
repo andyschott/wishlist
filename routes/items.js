@@ -23,4 +23,13 @@ router.get('/', (req, res, next) => {
     });
 });
 
+// Delete an item
+router.delete('/:item_id', (req, res, next) => {
+    const id = req.params.item_id;
+
+    db.deleteItem(id, (items) => {
+        return res.redirect('/');
+    });
+});
+
 module.exports = router;

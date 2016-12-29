@@ -26,7 +26,7 @@ const db = {
     'createItem': function (name, priority, comment, callback) {
         pg.connect(connectionString, (err, client, done) => {
             if (err) {
-                handleError(err, done);
+                return handleError(err, done);
             }
 
             // Insert the new item
@@ -43,8 +43,24 @@ const db = {
     'getItems': function (callback) {        
         pg.connect(connectionString, (err, client, done) => {
             if (err) {
-                handleError(err, done);
+                return handleError(err, done);
             }
+
+            return getItems(client, (items) => {
+                done();
+                return callback(items);
+            });
+        });
+    },
+
+    'deleteItem': function(id, callback) {
+        pg.connect(connectionString, (err, client, done) => {
+            if (err) {
+                return handleError(err, done);
+            }
+
+            // Delete the item
+            client.query('DELETE FROM ITEMS WHERE ID = $1', [id]);
 
             return getItems(client, (items) => {
                 done();

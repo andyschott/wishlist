@@ -62,10 +62,8 @@ const db = {
             // Delete the item
             client.query('DELETE FROM ITEMS WHERE ID = $1', [id]);
 
-            return getItems(client, (items) => {
-                done();
-                return callback(items);
-            });
+            done();
+            return callback('OK');
         });
     }
 };

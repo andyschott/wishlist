@@ -4,13 +4,14 @@ block content
   h1 Wishlist
   ul(id='items')
     each item in items
-      li
-        div(class='wishlistItem')
-          span #{item.name} (Priority #{item.priority})
-          br
-          em #{item.comment}
+      li(id='item' + item.id)
+        span #{item.name} (Priority #{item.priority})
+        br
+        em #{item.comment}
+        br
         a(href='#') Edit
-        a(href='#') Delete
+        | &nbsp;
+        a(href='javascript:client.deleteItem(' + item.id + ')') Delete
   h1 Add an Item
   form(action='/api/v1/items', method='post')
     p

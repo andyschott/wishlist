@@ -27,8 +27,8 @@ router.get('/', (req, res, next) => {
 router.delete('/:item_id', (req, res, next) => {
     const id = req.params.item_id;
 
-    db.deleteItem(id, (items) => {
-        return res.redirect('/');
+    db.deleteItem(id, (response) => {
+        return res.send(response);
     });
 });
 

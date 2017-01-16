@@ -32,4 +32,18 @@ router.delete('/:item_id', (req, res, next) => {
     });
 });
 
+// Edit an item
+router.put('/:item_id', (req, res, next) => {
+    const data = {
+        'id': req.body.id,
+        'name': req.body.name,
+        'priority': parseInt(req.body.priority),
+        'comment': req.body.comment
+    };
+
+    db.editItem(data, (response) => {
+        return res.send(response);
+    });
+});
+
 module.exports = router;

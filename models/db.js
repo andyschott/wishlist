@@ -65,6 +65,28 @@ const db = {
             done();
             return callback('OK');
         });
+    },
+
+    'editItem' : function(item, callback) {
+        pg.connect(connectionString, (err, client, done) => {
+            if(err) {
+                return handleError(err, done);
+            }
+
+            // Edit the item
+            const query = client.query("UPDATE ITEMS SET NAME='$1', PRIORITY=$2, COMMENT='$3' WHERE ID=$4",
+                [item.name, item.priority, item.comment, item.id]);
+            
+            const results = [];
+            query.on('row', (row) => {
+                results.push(row);
+            });
+
+            query.on('end', () => {
+                done();
+                return results;
+            });
+        });
     }
 };
 

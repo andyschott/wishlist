@@ -1,5 +1,38 @@
 window.client = function() {
   var self = {
+    'addItemToDom' : function(item) {
+      var li = document.createElement('li');
+      li.id = 'item' + item.id;
+      li.dataset.name = item.name;
+      li.dataset.priority = item.priority;
+
+      var span = document.createElement('span');
+      span.innerText = item.name + '(Priority ' + item.priority + ')';
+      li.appendChild(span);
+      li.appendChild(document.createElement('br'));
+
+      var em = document.createElement('em');
+      em.className = 'comment';
+      em.innerText = item.comment;
+      li.appendChild(em);
+      li.appendChild(document.createElement('br'));
+
+      var a = document.createElement('a');
+      a.href = 'javascript:client.startEditItem(' + item.id + ')';
+      a.innerText = 'Edit';
+      li.appendChild(a);
+
+      a = document.createElement('a');
+      a.href = 'javascript:client.deleteItem(' + item.id + ')';
+      a.innerText = 'Delete';
+      li.appendChild(a);
+
+      var ulItems = document.getElementById('items');
+      ulItems.appendChild(li);
+    }
+  };
+
+  return {
     'deleteItem' : function(itemId) {
       var req = new XMLHttpRequest();
       req.open('DELETE', '/api/v1/items/' + itemId);
@@ -30,14 +63,29 @@ window.client = function() {
     },
 
     'editItem' : function() {
-      // var req = new XMLHttpRequest();
-      // req.open('PUT', '/avpi/v1/items/' + itemId);
-      // req.onload = function() {
+      var item = {
+        'id' : parseInt(document.getElementById('editId').value),
+        'name' : document.getElementById('editName').value,
+        'priority' : parseInt(document.getElementById('editPriority').value),
+        'comment' : document.getElementById('editComment').value
+      };
 
-      // };
-      // req.send();
+      var req = new XMLHttpRequest();
+      req.open('PUT', '/api/v1/items/' + item.id);
+      req.setRequestHeader('Content-Type', 'application/json');
+      req.onload = function() {
+        var updatedItems = JSON.parse(this.response);
+        var updatedItem = updatedItems[0];
+
+        var oldLi = document.getElementById('item' + updatedItem.id);
+        oldLi.remove();
+
+        self.addItemToDom(updatedItem);
+
+        var editor = document.getElementById('editor');
+        editor.style = '';
+      };
+      req.send(JSON.stringify(item));
     }
-  }
-
-  return self;
+  };
 }();

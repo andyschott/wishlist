@@ -13,6 +13,19 @@ function getItems(client, callback) {
     });
 }
 
+function getItem(client, itemId, callback) {
+    const query = client.query('SELECT * FROM ITEMS WHERE ID=($1)', [itemId]);
+
+    const items = [];
+    query.on('row', (row) => {
+        items.push(row);
+    });
+
+    query.on('end', () => {
+        callback(items);
+    })
+}
+
 function handleError(err, done) {
     done();
     console.log(err);
@@ -74,17 +87,14 @@ const db = {
             }
 
             // Edit the item
-            const query = client.query("UPDATE ITEMS SET NAME='$1', PRIORITY=$2, COMMENT='$3' WHERE ID=$4",
+            const query = client.query("UPDATE ITEMS SET NAME=($1), PRIORITY=($2), COMMENT=($3) WHERE ID=$4",
                 [item.name, item.priority, item.comment, item.id]);
             
-            const results = [];
-            query.on('row', (row) => {
-                results.push(row);
-            });
-
             query.on('end', () => {
-                done();
-                return results;
+                getItem(client, item.id, (updatedItem) => {
+                    done();
+                    callback(updatedItem);
+                });
             });
         });
     }
